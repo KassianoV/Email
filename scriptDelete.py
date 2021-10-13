@@ -1,6 +1,21 @@
 import imaplib
 from os import system as sys
 
+def escolhe():
+    opcs= ['Outlook.com', 'imap.gmail.com']
+    return opcs[int(input("<0> outlook\n<1> gmail\n<> "))]
+
+# login no email
+def insertEmailPass():
+    email = input("<> email: ")
+    while "@" not in email:
+        email = input("Insira um email va'lido!\n<> email: ")
+    pw = input("<> password/senha: ")
+
+    sys("cls") # limpar tela
+
+    return email, pw
+    
 # retorna lista de mailBoxes
 def getMailBox(mail):
     old_mailboxesList = mail.list()[1]
@@ -10,7 +25,6 @@ def getMailBox(mail):
         mailboxList.append(mailbox.decode('UTF-8').split('"/" ')[1]) # criar nova lista transformando de bytes em str cada elemento da lista antiga
 
     return mailboxList 
-
 
 # mostra mailboxes da conta atual
 def showMailBoxes(mailBox): 
@@ -49,22 +63,26 @@ def deleteEmail(imap, mailBox):
     imap.expunge()
     imap.close()
 
+def main():
+    # cria uma classe IMAP4 com SSL
+    imap = imaplib.IMAP4_SSL(escolhe(), 993)
 
+    # inserção do email e da senha 
+    username, password = insertEmailPass()
 
-# cria uma classe IMAP4 com SSL
-imap = imaplib.IMAP4_SSL('imap.gmail.com', 993) # imaplib.IMAP4_SSL('Outlook.com', 993)
+    # autenticação
+    imap.login(username, password)
 
-# inserção do email e da senha 
-username, password = "minhaconta@gmail.com", "minhasenha"
+    listaMailBox = getMailBox(imap)
 
-# autenticação
-imap.login(username, password)
+    deleteEmail(imap, listaMailBox)
 
-listaMailBox = getMailBox(imap)
+    imap.logout()
+    sys("cls")
 
-deleteEmail(imap, listaMailBox)
-
-imap.logout()
-
-
+continuar = 0
+while not continuar:
+    main()
+    continuar = int(input("Deletar novamente?\n<0> Sim\n<1> Não\n<> "))
+    sys("cls")
 
