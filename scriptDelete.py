@@ -67,7 +67,7 @@ def main():
     continuar = 0
     mudar_email = 0
     while not continuar:
-        if mudar_email\:
+        if mudar_email:
             # cria uma classe IMAP4 com SSL
             imap = imaplib.IMAP4_SSL(escolhe(), 993)
 
