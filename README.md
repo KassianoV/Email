@@ -1,1 +1,3 @@
-# Outlook Scripts
+# Email 
+
+Programas para deletar emails.
