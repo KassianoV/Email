@@ -66,6 +66,14 @@ def deleteEmail(imap, mailBox):
 def main():
     continuar = 0
     mudar_email = 0
+    # cria uma classe IMAP4 com SSL
+    imap = imaplib.IMAP4_SSL(escolhe(), 993)
+
+    # inserção do email e da senha 
+    username, password = insertEmailPass()
+
+    # autenticação
+    imap.login(username, password)
     while not continuar:
         if mudar_email:
             # cria uma classe IMAP4 com SSL
