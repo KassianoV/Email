@@ -64,25 +64,30 @@ def deleteEmail(imap, mailBox):
     imap.close()
 
 def main():
-    # cria uma classe IMAP4 com SSL
-    imap = imaplib.IMAP4_SSL(escolhe(), 993)
+    continuar = 0
+    mudar = 0
+    while not continuar:
+        if not mudar:
+            # cria uma classe IMAP4 com SSL
+            imap = imaplib.IMAP4_SSL(escolhe(), 993)
 
-    # inserção do email e da senha 
-    username, password = insertEmailPass()
+            # inserção do email e da senha 
+            username, password = insertEmailPass()
 
-    # autenticação
-    imap.login(username, password)
+            # autenticação
+            imap.login(username, password)
 
-    listaMailBox = getMailBox(imap)
+        listaMailBox = getMailBox(imap)
 
-    deleteEmail(imap, listaMailBox)
+        deleteEmail(imap, listaMailBox)
 
-    imap.logout()
-    sys("cls")
+        imap.logout()
+        sys("cls")
 
-continuar = 0
-while not continuar:
-    main()
-    continuar = int(input("Deletar novamente?\n<0> Sim\n<1> Não\n<> "))
-    sys("cls")
+        continuar = int(input("Deletar novamente?\n<0> Sim\n<1> Não\n<> "))
+        if not continuar:
+            mudar_email = int(input("Deletar no mesmo email?\n<0> Sim\n<1> Não\n<> "))
+        
+        sys("cls")  
 
+main()
