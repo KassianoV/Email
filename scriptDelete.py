@@ -65,9 +65,9 @@ def deleteEmail(imap, mailBox):
 
 def main():
     continuar = 0
-    mudar = 0
+    mudar_email = 0
     while not continuar:
-        if not mudar:
+        if mudar_email\:
             # cria uma classe IMAP4 com SSL
             imap = imaplib.IMAP4_SSL(escolhe(), 993)
 
@@ -81,13 +81,15 @@ def main():
 
         deleteEmail(imap, listaMailBox)
 
-        imap.logout()
         sys("cls")
 
         continuar = int(input("Deletar novamente?\n<0> Sim\n<1> Não\n<> "))
         if not continuar:
             mudar_email = int(input("Deletar no mesmo email?\n<0> Sim\n<1> Não\n<> "))
-        
+            if mudar_email:
+                imap.logout()
+        if continuar:
+            imap.logout()
         sys("cls")  
 
 main()
